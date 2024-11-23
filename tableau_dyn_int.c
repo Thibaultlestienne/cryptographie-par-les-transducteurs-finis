@@ -93,3 +93,16 @@ int main() {
     return 0;
 };
 */
+
+
+// void facteurs_premiers(tableau_dyn_int *facteur, int n){
+//     int d = 2;
+//     while(n>1) {
+//         if(n%d==0) {
+//             tableau_dyn_int_ajoute(facteur, d);
+//             n=n/d;
+//         } else {
+//             d=d+1;
+//         }
+//     }
+// }

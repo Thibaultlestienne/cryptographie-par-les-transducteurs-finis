@@ -11,8 +11,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "analyse_frequence.h"
-#include "tableau_dyn_int.h"
-
 
 #define TAILLEMAXMESSAGE 10000
 

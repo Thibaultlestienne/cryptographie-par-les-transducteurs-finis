@@ -10,7 +10,7 @@
 
 extern float FREQUENCETHEORIQUE[26];
 
-char* enleverAccentsEspacePonctuationMajuscule(char* str);
+void enleverAccentsEspacePonctuationMajuscule(char* str);
 
 void freqSimpleFichier(char* name_fich, float tabfreq[26]);
 

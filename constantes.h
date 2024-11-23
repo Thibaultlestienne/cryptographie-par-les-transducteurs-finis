@@ -5,11 +5,18 @@
 //Fichier chargé de le gestion de constantes globles
 ////////////////////////////////////////////////////////////////////////
 
-// Textes
-#define HUGO "victorhugo.txt"
-#define TEST "test.txt"
+//////////////////////////Textes//////////////////////////
 
-// Tailles
-#define TAILLE_MAX_TEXTE 1000
+//Fichiers
+#define HUGO "victorhugo.txt"
+
+// Dur
+#define TXTTEST "La cryptographie est une des disciplines de la cryptologie s'attachant à protéger des messages (assurant confidentialité, authenticité et intégrité) en s'aidant souvent de secrets ou clés. Elle se distingue de la stéganographie qui fait passer inaperçu un message dans un autre message alors que la cryptographie rend un message supposément inintelligible à autre que qui de droit."
+//Pour le Vigner
+#define CLETEST "cle"
+#define RESULTATATTENDUVIGNER "nlgtjtvzktltjtigdxwyifpwftwettntrgdhgweeccresnzkkpwcexcnlcyxcavqeiipvfpwopwulkgdeudytlrvnspqmfprvtentxglyvsipemetxgpxkyxgrvkeigywcthcyxuzyxprvoiupgtpxuzyewiuppnpwgomuemprygoinlwvpkcysicersmgbykqeketcdwgcmpltgcgwfropwulkgoepdyplyvciopwulkglpqcwsfinlgtjtvzktltjtitprffropwulkgdyrasupqgyxkympeinwmitfnpecfxtpuwpuwthgovqtx"
+
+////////////////////////// Tailles //////////////////////////
+#define TAILLE_MAX_TEXTE 10000
 
 #endif

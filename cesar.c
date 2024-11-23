@@ -36,8 +36,7 @@ void codeCesar(char* messageClaire, char* messageEncode, int decalage){
 // char clair[TAILLE_MAX_TEXTE] = "un petit texte ";
 // char encode[TAILLE_MAX_TEXTE];
 // codeCesar(clair,encode,1);
-// printf("%s\n", encode);
-// printf("TEST code_cesar -> OK \n");
+// printf("%s encodee en %s avec un decalage de 1\n", clair, encode);
 
 float valeurAbsolue(float nb) {
     if (nb < 0) {return (-1 * nb);}
@@ -82,13 +81,12 @@ int decodeCesarTexte(char* TexteEncode, char* TexteDecode) {//nom de fichiers
 
 // codeCesar(clair,encode,decalage);
 // assert(decodeCesarTexte(encode,decode) == decalage);
-// assert(strcmp(enleverAccentsEspacePonctuationMajuscule(clair),decode)==0);
-// printf("%s\n", enleverAccentsEspacePonctuationMajuscule(clair));
+// assert((clair,decode));
+// printf("%s\n", clair);
 // printf("%s\n", decode);
 // printf("TEST code_cesar -> OK \n");
 
-int main(){
+// int main(){
 
-    return 0;
-}
+// }
 

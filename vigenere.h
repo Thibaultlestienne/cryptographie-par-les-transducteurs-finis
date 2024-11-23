@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "analyse_frequence.h"
-#include "tableau_dyn_int.h"
 #include "cesar.h"
+#include "constantes.h"
 
 #endif 

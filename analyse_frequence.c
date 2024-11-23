@@ -6,7 +6,8 @@ float FREQUENCETHEORIQUE[] = {0.088407, 0.010537, 0.031582, 0.035204, 0.171920, 
 // for (int i = 0; i < 26; i++) {somme += FREQUENCETHEORIQUE[i];}
 // printf("si OK  %f a peu près egal a 1", somme);
 
-char* enleverAccentsEspacePonctuationMajuscule(char* str) {
+void enleverAccentsEspacePonctuationMajuscule(char* str) {
+    // Exemple d'une fonction pour enlever accents, espaces, ponctuation et convertir en minuscule
     unsigned char* src = (unsigned char*)str;
     unsigned char* dst = src;
 
@@ -49,28 +50,28 @@ char* enleverAccentsEspacePonctuationMajuscule(char* str) {
         dst++;
     }
     *dst = '\0'; // Terminer la chaîne
-    return (char*)str;
 }
 
 // TEST - OK
 // char test[TAILLE_MAX_TEXTE] = "test  éçèè - A";
-// printf("%s",enleverAccentsEspacePonctuationMajuscule(test));
+// enleverAccentsEspacePonctuationMajuscule(test);
+// printf("%s",test);
 
 void freqSimpleFichier(char* name_fich, float tabfreq[26]) {
     FILE* fichier = fopen(name_fich, "r");
     assert(fichier != NULL);
     int tab[26] = {0};
-    char line[TAILLE_MAX_TEXTE];
+    char ligne[TAILLE_MAX_TEXTE];
     int nb_char = 0;
-    while(fscanf(fichier, "%[^\n]\n", line) != EOF) {
-        char* ligneSans = enleverAccentsEspacePonctuationMajuscule(line);
-        for (int i = 0; ligneSans[i] != '\0' ; i++) {
-            if (ligneSans[i] >= 'a' && ligneSans[i] <= 'z') {
-                tab[ligneSans[i] - 'a'] += 1;
+    while(fscanf(fichier, "%[^\n]\n", ligne) != EOF) {
+        enleverAccentsEspacePonctuationMajuscule(ligne);
+        for (int i = 0; ligne[i] != '\0' ; i++) {
+            if (ligne[i] >= 'a' && ligne[i] <= 'z') {
+                tab[ligne[i] - 'a'] += 1;
                 nb_char ++;
             }
-            if (ligneSans[i] >= 'A' && ligneSans[i] <= 'Z') {
-                tab[ligneSans[i] - 'A'] += 1;
+            if (ligne[i] >= 'A' && ligne[i] <= 'Z') {
+                tab[ligne[i] - 'A'] += 1;
                 nb_char ++;
             }
         }
@@ -90,15 +91,15 @@ void freqSimpleFichier(char* name_fich, float tabfreq[26]) {
 void freqSimpleTexte(char* texte, float tabfreq[26]) {
     int tab[26] = {0};
     int nb_char = 0;
-    char * texteSansAccents = enleverAccentsEspacePonctuationMajuscule(texte);
-    int taille = strlen(texteSansAccents);
-    for (int i = 0; texteSansAccents[i] != '\0' ; i++) {
-        if (texteSansAccents[i] >= 'a' && texteSansAccents[i] <= 'z') {
-            tab[texteSansAccents[i] - 'a'] += 1;
+    enleverAccentsEspacePonctuationMajuscule(texte);
+    int taille = strlen(texte);
+    for (int i = 0; texte[i] != '\0' ; i++) {
+        if (texte[i] >= 'a' && texte[i] <= 'z') {
+            tab[texte[i] - 'a'] += 1;
             nb_char ++;
         }
-        if (texteSansAccents[i] >= 'A' && texteSansAccents[i] <= 'Z') {
-            tab[texteSansAccents[i] - 'A'] += 1;
+        if (texte[i] >= 'A' && texte[i] <= 'Z') {
+            tab[texte[i] - 'A'] += 1;
             nb_char ++;
         }
     }
@@ -117,25 +118,25 @@ void freqCoupleFichier(char* name_fich, float tabfreq[26][26]) {
     FILE* fichier = fopen(name_fich, "r");
     assert(fichier != NULL);
     int tab[26][26] = {0};
-    char line[TAILLE_MAX_TEXTE];
+    char ligne[TAILLE_MAX_TEXTE];
     int nb_couple = 0;
-    while(fscanf(fichier, "%[^\n]\n", line) != EOF) {
-        char* ligneSans = enleverAccentsEspacePonctuationMajuscule(line);
-        for (int i = 0; ligneSans[i+1] != '\0'; i++) {
+    while(fscanf(fichier, "%[^\n]\n", ligne) != EOF) {
+        enleverAccentsEspacePonctuationMajuscule(ligne);
+        for (int i = 0; ligne[i+1] != '\0'; i++) {
             int premiere_lettre = 0;
             int deuxieme_lettre = 0;
 
-            if (ligneSans[i] >= 'A' && ligneSans[i] <= 'Z') {
-                premiere_lettre = ligneSans[i] - 'A';
+            if (ligne[i] >= 'A' && ligne[i] <= 'Z') {
+                premiere_lettre = ligne[i] - 'A';
             }
-            else if (ligneSans[i] >= 'a' && ligneSans[i] <= 'z') {
-                premiere_lettre = ligneSans[i] - 'a';
+            else if (ligne[i] >= 'a' && ligne[i] <= 'z') {
+                premiere_lettre = ligne[i] - 'a';
             }
-            if (ligneSans[i+1] >= 'A' && ligneSans[i+1] <= 'Z') {
-                deuxieme_lettre += ligneSans[i+1] - 'A';
+            if (ligne[i+1] >= 'A' && ligne[i+1] <= 'Z') {
+                deuxieme_lettre += ligne[i+1] - 'A';
             }
-            else if (ligneSans[i+1] >= 'a' && ligneSans[i+1] <= 'z') {
-                deuxieme_lettre += ligneSans[i+1] - 'a';
+            else if (ligne[i+1] >= 'a' && ligne[i+1] <= 'z') {
+                deuxieme_lettre += ligne[i+1] - 'a';
             }
             nb_couple ++;
             tab[premiere_lettre][deuxieme_lettre] += 1;
@@ -161,4 +162,5 @@ void freqCoupleFichier(char* name_fich, float tabfreq[26][26]) {
 
 // int main(int argc, char const *argv[])
 // {
+
 // }
