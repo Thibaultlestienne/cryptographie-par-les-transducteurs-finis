@@ -1,0 +1,15 @@
+#ifndef CONSTANTES
+#define CONSTANTES
+
+////////////////////////////////////////////////////////////////////////
+//Fichier chargé de le gestion de constantes globles
+////////////////////////////////////////////////////////////////////////
+
+// Textes
+#define HUGO "victorhugo.txt"
+#define TEST "test.txt"
+
+// Tailles
+#define TAILLE_MAX_TEXTE 1000
+
+#endif

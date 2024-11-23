@@ -16,76 +16,79 @@ char decalage_caractere(char c, int decalage){
     return c;
 }
 
-void code_cesar(char* messageClaire, char* messageEncode, int decalage){//nomFich
-    FILE* entree = fopen(messageClaire, "r");
-    FILE* sortie = fopen(messageEncode, "w");
-    assert(entree != NULL && sortie != NULL);
-    char line[1000];
-    while(fscanf(entree, "%[^\n]\n", line) != EOF) {
-        int taille = strlen(line);
-        char linecode[taille+1];
-        for (int i = 0; i < taille+1; i++) {
-            linecode[i] = decalage_caractere(line[i], decalage);
-            //printf("%d\n",decalage_caractere(line[i], decalage));
-        }
-        fprintf(sortie, "%s\n", linecode);
+// TEST
+// assert(decalage_caractere('a', 3) == 'd');
+// assert(decalage_caractere('z', 3) == 'c');
+// assert(decalage_caractere('b',-5) == 'w');
+// printf("TEST decalage_caractere -> OK \n");
+
+void codeCesar(char* messageClaire, char* messageEncode, int decalage){
+    int i = 0;
+    enleverAccentsEspacePonctuationMajuscule(messageClaire);
+    for (; messageClaire[i] != '\0'; i++) {
+        messageEncode[i] = decalage_caractere(messageClaire[i], decalage);
+        //printf("%d\n",decalage_caractere(line[i], decalage));
     }
-    fclose(entree);
-    fclose(sortie);
+    messageEncode[i] = '\0';
 }
 
-float abso(float nb) {
+// TEST OK
+// char clair[TAILLE_MAX_TEXTE] = "un petit texte ";
+// char encode[TAILLE_MAX_TEXTE];
+// codeCesar(clair,encode,1);
+// printf("%s\n", encode);
+// printf("TEST code_cesar -> OK \n");
+
+float valeurAbsolue(float nb) {
     if (nb < 0) {return (-1 * nb);}
     else {return nb;}
 }
 
-int decodeCesarFichier(char* nom_fcode, char* txt_etalon) {//nom de fichiers
-    float freqEtal[26];
-    float freq[26];
-    freqSimpleFichier(txt_etalon, freqEtal);
-    freqSimpleFichier(nom_fcode, freq);
-    float difMin = 1000;
-    int decMin = 0;
-    for (int i = 0; i < 26; i++) {
-        float dif = 0;
-        for (int j = 0; j < 26; j++) {
-            int indDec = i+j;
-            if (indDec > 25) indDec -= 26;
-            dif += abso(freqEtal[j] - freq[indDec]);
-        }
-        if (dif < difMin) {
-            decMin = i;
-            difMin = dif;
-        }
-    }
-    return decMin;
-}
+// assert(valeurAbsolue (0) == 0);
+// assert(valeurAbsolue (0.5) == 0.5);
+// assert(valeurAbsolue (-1.5) == 1.5);
+// printf("test ok \n");
 
-int decodeCesarTexte(char* TexteEncode) {//nom de fichiers
-    float freq[26];
-    freqSimpleTexte(TexteEncode, freq);
-    float difMin = 1000;
-    int decMin = 0;
-    for (int i = 0; i < 26; i++) {
-        float dif = 0;
-        for (int j = 0; j < 26; j++) {
-            int indDec = i+j;
-            if (indDec > 25) indDec -= 26;
-            dif += abso(FREQUENCETHEORIQUE[j] - freq[indDec]);
+int decodeCesarTexte(char* TexteEncode, char* TexteDecode) {//nom de fichiers
+    float frequenceMessage[26];
+    freqSimpleTexte(TexteEncode, frequenceMessage);
+    int MeilleurDecalage = 0;
+    float MeilleurDifference = __FLT_MAX__;
+    for (int decalage = 0; decalage < 26; decalage++) {
+        float difference = 0;
+        for (int i = 0; i < 26; i++) {
+            difference += valeurAbsolue(FREQUENCETHEORIQUE[i] - frequenceMessage[(decalage+i) % 26]);
         }
-        if (dif < difMin) {
-            decMin = i;
-            difMin = dif;
+        if (difference < MeilleurDifference) {
+            MeilleurDecalage = decalage;
+            MeilleurDifference = difference;
         }
     }
-    return decMin;
+
+    int j = 0;
+    for (0; TexteEncode[j]!='\0'; j++){
+        TexteDecode[j] = decalage_caractere(TexteEncode[j], -MeilleurDecalage);
+    }
+    TexteDecode[j] = '\0';
+
+    return MeilleurDecalage;
 }
 
-    // Pour tester facteurs_premiers
-    // tableau_dyn_int facteur = tableau_dyn_int_initialisation(1);
-    // facteurs_premiers(&facteur, 1545158560);
-    // tableau_dyn_int_affiche(facteur);
-    // assert(tableau_dyn_int_produit(facteur) == 1545158560);
+// TEST OK
+// char clair[TAILLE_MAX_TEXTE] = "La cryptographie est une des disciplines de la cryptologie s'attachant à protéger des messages (assurant confidentialité, authenticité et intégrité) en s'aidant souvent de secrets ou clés. Elle se distingue de la stéganographie qui fait passer inaperçu un message dans un autre message alors que la cryptographie rend un message supposément inintelligible à autre que qui de droit.";
+// char encode[TAILLE_MAX_TEXTE];
+// char decode[TAILLE_MAX_TEXTE];
+// int decalage = 5;
 
+// codeCesar(clair,encode,decalage);
+// assert(decodeCesarTexte(encode,decode) == decalage);
+// assert(strcmp(enleverAccentsEspacePonctuationMajuscule(clair),decode)==0);
+// printf("%s\n", enleverAccentsEspacePonctuationMajuscule(clair));
+// printf("%s\n", decode);
+// printf("TEST code_cesar -> OK \n");
 
+int main(){
+
+    return 0;
+}
 

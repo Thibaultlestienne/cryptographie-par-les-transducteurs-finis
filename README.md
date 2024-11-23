@@ -6,7 +6,7 @@
 
 ### I Présentation et formalisation de la cryptographie
 ####        A exemple du cesar
- ####        B exemple du vigner
+####        B exemple du vigner
         
 ### II Transducteurs finis
 ####        A Presentation formelle
@@ -15,3 +15,14 @@
 ### III La messagerie
 ####        A prottocole de messagerie 
 ####        B prottocole  de transfert de la cle [Lien](https://fr.wikipedia.org/wiki/%C3%89change_de_cl%C3%A9 "Wiki")
+
+## TODO 
+implementation des transducteurs 
+choix du langage
+
+## Biblio
+
+Cours de l ens 
+DM de Hemery 
+
+

@@ -1,14 +1,17 @@
 #include "analyse_frequence.h"
 
-float FREQUENCETHEORIQUE[] = {0.084, 0.006, 0.0303, 0.0418, 0.1726, 0.0112, 0.01027, 0.0092, 0.0734, 0.0031, 0.0005, 0.0601, 0.0296, 0.0713, 0.0526, 0.0301, 0.0099, 0.0655, 0.0808, 0.0707, 0.0574, 0.0132, 0.0004, 0.0045, 0.003, 0.0012};
+float FREQUENCETHEORIQUE[] = {0.088407, 0.010537, 0.031582, 0.035204, 0.171920, 0.011069, 0.009396, 0.009726, 0.075093, 0.005395, 0.000063, 0.059660, 0.028249, 0.067355, 0.051662, 0.026124, 0.011992, 0.064086, 0.075002, 0.076678, 0.063793, 0.018107, 0.000108, 0.003999, 0.003268, 0.001527};
 
-char* enleverAccents(char* str) {
-    unsigned char* p = (unsigned char*)str;
-    unsigned char* src = p;
-    unsigned char* dst = p;
+// float somme = 0;
+// for (int i = 0; i < 26; i++) {somme += FREQUENCETHEORIQUE[i];}
+// printf("si OK  %f a peu près egal a 1", somme);
+
+char* enleverAccentsEspacePonctuationMajuscule(char* str) {
+    unsigned char* src = (unsigned char*)str;
+    unsigned char* dst = src;
 
     while (*src) {
-        if (*src == 0xC3) { // Caractère accentué UTF-8 détecté
+        if (*src == 0xC3) { // Détecter un caractère accentué UTF-8
             src++;
             switch (*src) {
                 case 0xA0: case 0xA1: case 0xA2: case 0xA3: case 0xA4: case 0xA5: // à á â ã ä å
@@ -28,29 +31,39 @@ char* enleverAccents(char* str) {
                 case 0xB1: // ñ
                     *dst = 'n'; break;
                 default:
-                    dst++; // On copie le caractère non accentué tel quel
+                    src++; // Ignorer caractères inconnus
                     continue;
             }
+        } else if ((*src >= 'a' && *src <= 'z') || (*src >= 'A' && *src <= 'Z')) {
+            // Convertir en minuscule si majuscule
+            *dst = (*src >= 'A' && *src <= 'Z') ? (*src + 32) : *src;
+        } else if (*src == '\0') {
+            // Convertir en minuscule si majuscule
+            *dst = '\0';
         } else {
-            *dst = *src;
+            // Ignorer les espaces, chiffres et caractères de ponctuation
+            src++;
+            continue;
         }
         src++;
         dst++;
     }
-    *dst = '\0'; // Terminer la chaîne correctement
-    return str;
+    *dst = '\0'; // Terminer la chaîne
+    return (char*)str;
 }
 
+// TEST - OK
+// char test[TAILLE_MAX_TEXTE] = "test  éçèè - A";
+// printf("%s",enleverAccentsEspacePonctuationMajuscule(test));
 
-
-void freqSimpleFichier(char* name_fich, float* tabfreq) {
+void freqSimpleFichier(char* name_fich, float tabfreq[26]) {
     FILE* fichier = fopen(name_fich, "r");
     assert(fichier != NULL);
     int tab[26] = {0};
-    char line[200];
+    char line[TAILLE_MAX_TEXTE];
     int nb_char = 0;
     while(fscanf(fichier, "%[^\n]\n", line) != EOF) {
-        char* ligneSans = enleverAccents(line);
+        char* ligneSans = enleverAccentsEspacePonctuationMajuscule(line);
         for (int i = 0; ligneSans[i] != '\0' ; i++) {
             if (ligneSans[i] >= 'a' && ligneSans[i] <= 'z') {
                 tab[ligneSans[i] - 'a'] += 1;
@@ -66,10 +79,18 @@ void freqSimpleFichier(char* name_fich, float* tabfreq) {
     for (int i = 0; i < 26; i ++) tabfreq[i] = (float)tab[i]/nb_char;
 }
 
-void freqSimpleTexte(char* texte, float* tabfreq) {
+
+// TEST
+// float tab[26];
+// freqSimpleFichier("victorhugo.txt", tab);
+// for (int i = 0; i < 26; i ++) {
+//     printf("Fréquence de %c : %f\n", i + 'a', tab[i]);
+// }
+
+void freqSimpleTexte(char* texte, float tabfreq[26]) {
     int tab[26] = {0};
     int nb_char = 0;
-    char * texteSansAccents = enleverAccents(texte);
+    char * texteSansAccents = enleverAccentsEspacePonctuationMajuscule(texte);
     int taille = strlen(texteSansAccents);
     for (int i = 0; texteSansAccents[i] != '\0' ; i++) {
         if (texteSansAccents[i] >= 'a' && texteSansAccents[i] <= 'z') {
@@ -84,58 +105,60 @@ void freqSimpleTexte(char* texte, float* tabfreq) {
     for (int i = 0; i < 26; i ++) tabfreq[i] = (float)tab[i]/taille;
 }
 
+// TEST - OK
+// char test[TAILLE_MAX_TEXTE] = "test  2 é 5 t tot 12car";
+// float tab[26] = {0}; 
+// freqSimpleTexte(test, tab);
+// for (int i = 0; i < 26; i ++) {
+//     printf("Fréquence de %c : %f\n", i + 'a', tab[i]);
+// }
 
-void freqCoupleFichier(char* name_fich, float* tabfreq) {
+void freqCoupleFichier(char* name_fich, float tabfreq[26][26]) {
     FILE* fichier = fopen(name_fich, "r");
     assert(fichier != NULL);
-    int tab[26*26] = {0};
-    char line[200];
+    int tab[26][26] = {0};
+    char line[TAILLE_MAX_TEXTE];
     int nb_couple = 0;
     while(fscanf(fichier, "%[^\n]\n", line) != EOF) {
-        char* ligneSans = enleverAccents(line);
+        char* ligneSans = enleverAccentsEspacePonctuationMajuscule(line);
         for (int i = 0; ligneSans[i+1] != '\0'; i++) {
+            int premiere_lettre = 0;
+            int deuxieme_lettre = 0;
 
-            int ind_couple = 0;
-            int indic = 0; //0 signifie 0 lettres dans le couple
             if (ligneSans[i] >= 'A' && ligneSans[i] <= 'Z') {
-                ind_couple = ligneSans[i] - 'A';
-                indic++;
+                premiere_lettre = ligneSans[i] - 'A';
             }
             else if (ligneSans[i] >= 'a' && ligneSans[i] <= 'z') {
-                ind_couple = ligneSans[i] - 'a';
-                indic++;
+                premiere_lettre = ligneSans[i] - 'a';
             }
             if (ligneSans[i+1] >= 'A' && ligneSans[i+1] <= 'Z') {
-                ind_couple += 26 * (ligneSans[i+1] - 'A');
-                indic++;
+                deuxieme_lettre += ligneSans[i+1] - 'A';
             }
             else if (ligneSans[i+1] >= 'a' && ligneSans[i+1] <= 'z') {
-                ind_couple += 26 * (ligneSans[i+1] - 'a');
-                indic++;
+                deuxieme_lettre += ligneSans[i+1] - 'a';
             }
-            if (indic == 2) {
-                nb_couple ++;
-                tab[ind_couple] += 1;
-            }
-            ind_couple = 0;
-            indic = 0;
+            nb_couple ++;
+            tab[premiere_lettre][deuxieme_lettre] += 1;
         }
     }
     fclose(fichier);
-    for (int i = 0; i < 26 * 26; i++) tabfreq[i] = (float)tab[i]/nb_couple;
+    for (int i = 0; i < 26; i++) {
+        for (int j = 0; j < 26; j++) {
+            tabfreq[i][j] = (float)tab[i][j]/nb_couple;
+        }
+    }
 }
+
+//TEST
+// float tab[26][26];
+// freqCoupleFichier("victorhugo.txt", tab);
+// for (int i = 0; i < 26; i ++) {
+//     for (int j = 0; j < 26; j ++) {
+//         printf("Fréquence de %c%c : %f\n", i + 'a', j + 'a', tab[i][j]);
+//     }
+// }
+
 
 // int main(int argc, char const *argv[])
 // {
-//     float tab2[26];
-//     float tabfreq[26*26];
-//     freqSimple(TEST, tab2);
-//     freqCouple(TEST, tabfreq);
-//     for (int i = 0; i < 26*26; i++) {
-//         printf("(%c,%c) : %f\n", i - (i/26)*26 + 'a', i/26 + 'a', tabfreq[i]);
-//     }
-//     for (int i = 0; i < 26; i ++) {
-//         printf("Fréquence de %c : %f\n", i + 'a', tab2[i]);
-//     }
-//     printf("\n");
 // }

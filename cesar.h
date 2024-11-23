@@ -11,8 +11,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "analyse_frequence.h"
-#define HUGO "victorhugo.txt"
-#define TEST "test.txt"
 #include "tableau_dyn_int.h"
 
 
@@ -20,9 +18,9 @@
 
 char decalage_caractere(char c, int decalage);
 
-int codeCesarFichier(char* messageClaire, char* messageEncode, int decalage);
+void codeCesar(char* messageClaire, char* messageEncode, int decalage);
 
-int decodeCesarTexte(char* TexteEncode);
+int decodeCesarTexte(char* TexteEncode, char* TexteDecode) ;
 
 float abso(float nb);
 
