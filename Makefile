@@ -1,3 +1,9 @@
+compiler_transducteur:
+	gcc -g transducteur.c analyse_frequence.c -o ex -fsanitize=address
+
+compiler_transducteur_sans_verification_memoire:
+	gcc -g transducteur.c analyse_frequence.c -o ex
+
 compiler_cesar:
 	gcc -g cesar.c analyse_frequence.c -o ex
 
