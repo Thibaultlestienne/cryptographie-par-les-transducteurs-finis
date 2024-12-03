@@ -1,4 +1,4 @@
-# Cryptographie a l'aide de transducteurs fini
+# Cryptographie a l'aide de Machine de Mealy(Transducteurs)
 
 ### problématique Comment les transducteurs peuvent permettre un transfert d'information sécurisé?
 

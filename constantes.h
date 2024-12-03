@@ -19,4 +19,12 @@
 ////////////////////////// Tailles //////////////////////////
 #define TAILLE_MAX_TEXTE 10000
 
+////////////////////////// Gestion Fichier //////////////////////////
+#define TAILLE_MAX_NOM_FICHIER 200
+#define DOSSIERTRANSDUCTEUR "sources/transducteurs"
+#define EXTENTIONTRANSDUCTEUR "transducteur"
+
+////////////////////////// Aleatoire //////////////////////////
+#define GRAINE time(NULL)
+
 #endif

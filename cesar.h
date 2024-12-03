@@ -12,8 +12,6 @@
 #include <stdbool.h>
 #include "analyse_frequence.h"
 
-#define TAILLEMAXMESSAGE 10000
-
 char decalage_caractere(char c, int decalage);
 
 void codeCesar(char* messageClaire, char* messageEncode, int decalage);
