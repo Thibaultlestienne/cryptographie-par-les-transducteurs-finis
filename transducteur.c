@@ -193,8 +193,8 @@ transducteur* genererTransducteurAleatoire(int nombreEtat, int nombreLettre){
 
 // ameliorer le rendement ????
 
-int main(){
-    printf("TEST OK\n");
+// int main(){
+//     printf("TEST OK\n");
 
-    return 0;
-}
+//     return 0;
+// }

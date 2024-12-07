@@ -13,6 +13,9 @@ compiler_analyseFreq:
 compiler_vigenere:
 	gcc -g vigenere.c analyse_frequence.c cesar.c -o ex
 
+compiler_aleatoire:
+	gcc -g aleatoire.c -o ex
+
 presentation:
 	google-chrome "https://docs.google.com/presentation/d/119parnhLlwXbr45Fj8y0k48cPkYcSLTneXuT8fSEdWM/edit#slide=id.p"
 
