@@ -1,0 +1,107 @@
+
+\usepackage{enumitem} % Pour personnaliser les listes
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb} % Pour les mathématiques
+\usepackage{xcolor} % Pour les couleurs
+\usepackage{geometry} % Pour ajuster les marges
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning}
+
+% Configuration des marges
+\geometry{
+    a4paper,
+    left=2cm,
+    right=2cm,
+    top=2cm,
+    bottom=2cm
+}
+
+% Définition des couleurs
+\definecolor{bleuclair}{rgb}{0.8, 0.9, 1}
+\definecolor{rougeclair}{rgb}{1, 0.8, 0.8}
+\definecolor{vertclair}{rgb}{0.8, 1, 0.8}
+\definecolor{grisclair}{rgb}{0.9, 0.9, 0.9}
+\definecolor{nouvellecouleur}{rgb}{1, 1, 0.7}
+
+% Compteurs pour les sections numérotées
+\newcounter{numdefinition}
+\newcounter{numtheoreme}
+\newcounter{numdemonstration}
+\newcounter{numexemple}
+\newcounter{numremarque}
+\setcounter{numdefinition}{0}
+\setcounter{numtheoreme}{0}
+\setcounter{numdemonstration}{0}
+\setcounter{numexemple}{0}
+\setcounter{numremarque}{0}
+
+% Commande pour les définitions
+\newcommand{\definition}[2]{%
+    \vspace{1em}%
+    \stepcounter{numdefinition}%
+    \noindent%
+    \fcolorbox{black}{bleuclair}{%
+        \parbox[t]{0.95\textwidth}{%
+            \textbf{\sffamily Définition \thenumdefinition : #1} \par % Nom de la définition
+            #2 % Contenu de la définition
+        }%
+    }%
+    \vspace{1em}%
+}
+
+% Commande pour les théorèmes
+\newcommand{\theoreme}[2]{%
+    \vspace{1em}%
+    \stepcounter{numtheoreme}%
+    \noindent%
+    \fcolorbox{black}{rougeclair}{%
+        \parbox[t]{0.95\textwidth}{%
+            \textbf{\sffamily Théorème \thenumtheoreme : #1} \par % Nom du théorème
+            #2 % Contenu du théorème
+        }%
+    }%
+    \vspace{1em}%
+}
+
+% Commande pour les démonstrations
+\newcommand{\demonstration}[1]{%
+    \vspace{1em}%
+    \stepcounter{numdemonstration}%
+    \noindent%
+    \fcolorbox{black}{vertclair}{%
+        \parbox[t]{0.95\textwidth}{%
+            \textbf{\sffamily Démonstration \thenumdemonstration :} \par%
+            #1%
+        }%
+    }%
+    \vspace{1em}%
+}
+
+% Commande pour les exemples
+\newcommand{\exemple}[2]{%
+    \vspace{1em}%
+    \stepcounter{numexemple}%
+    \noindent%
+    \fcolorbox{black}{grisclair}{%
+        \parbox[t]{0.95\textwidth}{%
+            \textbf{\sffamily Exemple \thenumexemple : #1} \par%
+            #2%
+        }%
+    }%
+    \vspace{1em}%
+}
+
+
+% Commande pour les remarques
+\newcommand{\remarque}[2]{%
+    \vspace{1em}%
+    \stepcounter{numremarque}%
+    \noindent%
+    \fcolorbox{black}{nouvellecouleur}{%
+        \parbox[t]{0.95\textwidth}{%
+            \textbf{\sffamily Remarque \thenumremarque : #1} \par%
+            #2%
+        }%
+    }%
+    \vspace{1em}%
+}

@@ -48,16 +48,77 @@ void melangerUniformeTableau(int tab[], int taille){
     }
 }
 
-int* permutationUniforme(int n){//Renvoie une permutation de [|0,n-1|] choisis uniformement
-    int * retour = malloc(sizeof(int)* n);
+void permutationUniforme(int tableau[], int n){//Renvoie une permutation de [|0,n-1|] choisis uniformement
     for (int i = 0; i < n; i++){
-        retour[i] = i;
+        tableau[i] = i;
     }
-    melangerUniformeTableau(retour,n);
+    melangerUniformeTableau(tableau,n);
+}
+
+// //tester les permutaions aleatoires
+// srand(0);// Graine 0 pour les tests
+// int resultat[10][10] = {0} ;
+// int tab[10] = {0};
+// for (int  i = 0; i< 1000000; i++ ){
+//     permutationUniforme(tab, 10);
+//     for (int k = 0; k < 10; k++){
+//         resultat[k][tab[k]]++;
+//     }
+// }
+
+// for (int k = 0; k< 10; k++ ){
+//     for (int l = 0; l< 10; l++ ){
+//         //printf("%d %d -> %d \n",k,l, resultat[k][l] );
+//         assert( 99000 < resultat[k][l] && resultat[k][l] < 101000);
+//     }
+// }
+// printf("test OK\n");
+// return 0;
+
+transducteur * TransducteurUniforme(int nbEtat, int nbLettre){
+    transducteur * retour = initialiserTransducteur(nbEtat, nbLettre);
+    int* permutation = malloc(sizeof(int) * nbLettre);
+    for (int i = 0; i<nbEtat; i++){
+        permutationUniforme(permutation, nbLettre);
+        for (int j = 0; j<nbLettre; j++){
+            retour->delta[i][j].lettre = permutation[j] + 'a';
+            retour->delta[i][j].etat = entierAleatoire(0, nbEtat-1);
+        }
+    }
+    free(permutation);
     return retour;
 }
 
-int main(){
-    // tester les permutaions aleatoires
+// initialiserAleatoire();
+// transducteur * trans = TransducteurUniforme(10000,26);
+// assert(estValideTranducteur(*trans));
+// enregistrerTransducteur(*trans,"alea");
+// printf("test OK\n");
+// libererTransducteur(trans);
+// return 0;
 
-}
+// int main(){
+//     initialiserAleatoire();
+
+//     transducteur * trans = TransducteurUniforme(1000,26);
+//     char claire[TAILLE_MAX_TEXTE] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+//     char code[TAILLE_MAX_TEXTE];
+//     char decode [TAILLE_MAX_TEXTE];
+
+//     codeTransducteur(claire, code, *trans);
+//     decodeTransducteur(code, decode, trans);
+
+//     printf("claire : %s\n",claire);
+//     printf("  code : %s\n",code);
+//     printf("decode : %s\n",decode);
+
+//     assert(estValideTranducteur(*trans));
+//     enregistrerTransducteur(*trans,"alea");
+//     printf("test OK\n");
+//     libererTransducteur(trans);
+//     return 0;
+// }
+
+
+
+    

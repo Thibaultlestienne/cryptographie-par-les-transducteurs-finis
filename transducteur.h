@@ -26,8 +26,6 @@ struct transducteur{
     struct transducteur * inverse; // vaut NULL si non calculé
 };
 
-#include "transducteur.h"
-
 transducteur* initialiserTransducteur(int nombreEtat, int nombreLettre);
 
 void libererTransducteur(transducteur* trans);
@@ -39,5 +37,8 @@ void codeTransducteur(char * messageClair, char * messageEncode, transducteur tr
 void inverserTransducteur(transducteur* trans);
 
 void decodeTransducteur(char * messageEncode, char * messageDecode, transducteur * trans );
+
+bool estValideTranducteur(transducteur trans);
+
 
 #endif //TRANSDUCTEUR

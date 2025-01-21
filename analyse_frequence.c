@@ -57,8 +57,8 @@ void enleverAccentsEspacePonctuationMajuscule(char* str) {
 // enleverAccentsEspacePonctuationMajuscule(test);
 // printf("%s",test);
 
-void freqSimpleFichier(char* name_fich, float tabfreq[26]) {
-    FILE* fichier = fopen(name_fich, "r");
+void freqSimpleFichier(char* nomFichier, float tabfreq[26]) {
+    FILE* fichier = fopen(nomFichier, "r");
     assert(fichier != NULL);
     int tab[26] = {0};
     char ligne[TAILLE_MAX_TEXTE];
@@ -114,8 +114,8 @@ void freqSimpleTexte(char* texte, float tabfreq[26]) {
 //     printf("Fréquence de %c : %f\n", i + 'a', tab[i]);
 // }
 
-void freqCoupleFichier(char* name_fich, float tabfreq[26][26]) {
-    FILE* fichier = fopen(name_fich, "r");
+void freqCoupleFichier(char* nomFichier, float tabfreq[26][26]) {
+    FILE* fichier = fopen(nomFichier, "r");
     assert(fichier != NULL);
     int tab[26][26] = {0};
     char ligne[TAILLE_MAX_TEXTE];

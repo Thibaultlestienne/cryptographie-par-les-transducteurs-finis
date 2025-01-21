@@ -13,11 +13,22 @@ compiler_analyseFreq:
 compiler_vigenere:
 	gcc -g vigenere.c analyse_frequence.c cesar.c -o ex
 
-compiler_aleatoire:
-	gcc -g aleatoire.c -o ex
+compiler_cpourpython :
+	gcc -shared -o cpourpython.so -fPIC transducteur.c analyse_frequence.c fichier.c aleatoire.c cpourpython.c 
+
+interface : compiler_cpourpython
+	python3 interface.py
 
 presentation:
 	google-chrome "https://docs.google.com/presentation/d/119parnhLlwXbr45Fj8y0k48cPkYcSLTneXuT8fSEdWM/edit#slide=id.p"
+
+mcot:
+	google-chrome https://docs.google.com/document/d/1JvuZWCaYegk4VOUWGQ-JlJLkBKNPkktJAUQF_uu-zko/edit?tab=t.0
+
+# Génération du PDF à partir du fichier LaTeX
+pdf: 
+	pdflatex -output-directory="sources/preuve et reflexion" "sources/preuve et reflexion/formules.tex"
+	rm -f "sources/preuve et reflexion"/*.aux "sources/preuve et reflexion"/*.log "sources/preuve et reflexion"/*.out "sources/preuve et reflexion"/*.toc
 
 # Règle pour nettoyer le programme
 nettoyer:

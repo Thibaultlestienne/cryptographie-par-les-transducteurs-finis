@@ -168,25 +168,128 @@ bool estValideTranducteur(transducteur trans){
     // libererTransducteur(trans4);
     // printf("TEST OK\n");
 
-
-// ENvrai go le decaler dans aleatoire
-transducteur* genererTransducteurAleatoire(int nombreEtat, int nombreLettre){
-    transducteur *retour = initialiserTransducteur(nombreEtat,nombreLettre);
-    
+void parcoursProfondeurTransducteur(transducteur trans, int etat, bool * visite, int * ordre, int * indice){
+    if(visite[etat]){return;}
+    visite[etat] = true;
+    for (int i = 0; i<trans.nbLettre; i++){
+        parcoursProfondeurTransducteur(trans, trans.delta[etat][i].etat, visite, ordre, indice);
+    }
+    ordre[*indice] = etat;
+    (*indice)++;
 }
 
+void parcoursGraphe(bool ** graphe, int sommet, bool * visite, int nbsommet){
+    if(visite[sommet]){return;}
+    visite[sommet] = true;
+    for (int i = 0; i<nbsommet; i++){
+        if(graphe[sommet][i]){
+            parcoursGraphe(graphe, i, visite, nbsommet);
+        }
+    }
+}
+
+int nombreComposantesFortementConnexe(transducteur trans){ // comparer a la methode de tarjan
+    // methode de Kosaraju
+
+    // initialisation pour le premier parcours
+    bool * visite = malloc(sizeof(bool)*trans.nbEtat);
+    int * ordre = malloc(sizeof(int)*trans.nbEtat);
+    int indice = 0;
+
+    for (int i = 0; i < trans.nbEtat; i++){
+        visite[i] = false;
+    }
+    
+    // Premier parcours
+    for(int i=0;i<trans.nbEtat;i++){
+        parcoursProfondeurTransducteur(trans, i, visite, ordre, &indice);
+    }
+    
+    // Initialisation pour le deuxième parcours
+
+    for (int i = 0; i<trans.nbEtat; i++){
+        visite[i] = false;
+    }
+
+    // Construction du graphe transpose
+
+    bool ** transTranspose = malloc(sizeof(bool*)*trans.nbEtat);
+    for(int i = 0;i<trans.nbEtat;i++){
+        transTranspose[i] = malloc(sizeof(bool)*trans.nbEtat);
+        for (int j = 0; j < trans.nbEtat; j++)
+        {
+            transTranspose[i][j] = false;
+        }
+        
+    }
+
+    for(int etat = 0; etat<trans.nbEtat; etat++){
+        for(int lettre = 0; lettre<trans.nbLettre;lettre++){
+            transTranspose[trans.delta[etat][lettre].etat][etat] = true;
+        }
+    }
+
+
+    // 2eme parcours
+    int nbcomposantes = 0;
+
+    for (int i = trans.nbEtat - 1; i >= 0; i--){
+        if (!visite[ordre[i]]){
+            parcoursGraphe(transTranspose, ordre[i], visite, trans.nbEtat);
+            nbcomposantes++;
+        }
+    }
+
+    // liberer la memoire
+    
+    free(visite);
+    free(ordre);
+
+    // liberer le graphe transpose
+    for(int i = 0; i<trans.nbEtat;i++){
+        free(transTranspose[i]);
+    }
+    free(transTranspose);
+
+    return nbcomposantes; // Retourne le nombre d'états visités
+}
+
+// transducteur * trans1 = chargerTransducteur("ex1");
+// assert(nombreComposantesFortementConnexe(*trans1) == 1);
+// libererTransducteur(trans1);
+// transducteur * trans2 = chargerTransducteur("ex2");
+// assert(nombreComposantesFortementConnexe(*trans2) == 3);
+// libererTransducteur(trans2);
+// printf("TEST OK\n");
+// return 0;
+
+int espaceMemoireTransducteur(transducteur trans){
+    size_t tailleMemoire = sizeof(transducteur) + trans.nbEtat * sizeof(transition*) + trans.nbEtat * trans.nbLettre * sizeof(transition);
+    if (trans.inverse != NULL) {
+        tailleMemoire += sizeof(transducteur) + trans.inverse->nbEtat * sizeof(transition*) + trans.inverse->nbEtat * trans.inverse->nbLettre * sizeof(transition);
+    }
+    return tailleMemoire;
+}
+
+// initialiserAleatoire();
+// transducteur * trans1 = TransducteurUniforme(1000,26);
+// assert(estValideTranducteur(*trans1));
+// inverserTransducteur(trans1);
+// printf("taille memoire : %d\n", espaceMemoireTransducteur(*trans1));
+// libererTransducteur(trans1);
+// return 0;
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// Go finir l'aleatoire
 
 // Brut force
 
-// Generation de transducteurs aleatoire 
-
 // analyse des composantes connexes ou qui on une faible proba d etre quiter trop petite
+
 // passage par les etats chauds
 
 // identifier la proportion de faible 
@@ -194,7 +297,11 @@ transducteur* genererTransducteurAleatoire(int nombreEtat, int nombreLettre){
 // ameliorer le rendement ????
 
 // int main(){
-//     printf("TEST OK\n");
 
-//     return 0;
 // }
+
+
+
+int main(){
+
+}
