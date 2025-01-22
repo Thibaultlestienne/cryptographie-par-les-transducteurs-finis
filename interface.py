@@ -19,19 +19,19 @@ zoneDeSaisie = tk.Text(fenetre, height=10, width=120)
 zoneDeSaisie.pack(pady=20)
 
 # Zone de bouton
-ZoneDeBouton = tk.Frame(fenetre)
-ZoneDeBouton.pack(pady=20)
+zoneDeBouton = tk.Frame(fenetre)
+zoneDeBouton.pack(pady=20)
 
 # Bouton pour coder
-boutonCoder = tk.Button(ZoneDeBouton, text="Coder", command=lambda:coderTransducteur(zoneDeSaisie,zoneDeSortie))
+boutonCoder = tk.Button(zoneDeBouton, text="Coder", command=lambda:coderTransducteur(zoneDeSaisie,zoneDeSortie))
 boutonCoder.pack(side=tk.LEFT, padx=10)
 
 # Bouton pour decoder
-boutonDecoder = tk.Button(ZoneDeBouton, text="Decoder", command=lambda:decoderTransducteur(zoneDeSaisie,zoneDeSortie))
+boutonDecoder = tk.Button(zoneDeBouton, text="Decoder", command=lambda:decoderTransducteur(zoneDeSaisie,zoneDeSortie))
 boutonDecoder.pack(side=tk.LEFT, padx=10)
 
 # Bouton pour generer un transducteur
-boutonGenerationDeCle = tk.Button(ZoneDeBouton, text="Générer une clé", command=lambda:genererTransducteur(1000,26))
+boutonGenerationDeCle = tk.Button(zoneDeBouton, text="Générer une clé", command=lambda:genererTransducteur(1000,26))
 boutonGenerationDeCle.pack(side=tk.LEFT, padx=10)
 
 # Zone de sortie
