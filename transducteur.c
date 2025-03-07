@@ -15,6 +15,21 @@ transducteur* initialiserTransducteur(int nombreEtat, int nombreLettre){ // allo
     return trans;
 }
 
+void afficherTransducteur(transducteur trans){ 
+    // nbEtat et nbLettre
+    printf("nb Etat : %d, nb Lettre : %d\n", trans.nbEtat, trans.nbLettre);
+
+    printf("Delta : \n");
+
+    // delta
+    for (int i = 0; i < trans.nbEtat; i++) {
+        for (int j = 0; j < trans.nbLettre; j++) {
+            printf("|%d %c\t", trans.delta[i][j].etat, trans.delta[i][j].lettre);
+        }
+        printf("|\n");
+    }
+}
+
 void libererTransducteur(transducteur* trans){ 
     if(trans->inverse != NULL){
         for (int i = 0 ; i < trans->inverse->nbEtat; i++){
@@ -76,6 +91,29 @@ void codeTransducteur(char * messageClair, char * messageEncode, transducteur tr
 // assert(strcmp(encode, "abaaabbb") == 0);
 // libererTransducteur(trans);
 // printf("TEST OK \n");
+
+void codeFichierTransducteur(char * nomFichierClair, char * nomFichierEncode, transducteur trans){
+    FILE * fichierClair = fopen(nomFichierClair, "r");
+    FILE * fichierEncode = fopen(nomFichierEncode, "w");
+    assert(fichierClair != NULL);
+    assert(fichierEncode != NULL);
+
+    int etatActif = 0;
+    char messageClair[TAILLE_MAX_LIGNE];
+    char messageEncode[TAILLE_MAX_LIGNE];
+    while(fscanf(fichierClair, " %[^\n]\n", messageClair) != EOF){
+        enleverAccentsEspacePonctuationMajuscule(messageClair);
+        int i = 0;
+        for(;messageClair[i] != '\0'; i++){
+            messageEncode[i] = trans.delta[etatActif][messageClair[i] - 'a'].lettre;
+            etatActif = trans.delta[etatActif][messageClair[i] - 'a'].etat;
+        }
+        messageEncode[i] = '\0';
+        fprintf(fichierEncode, "%s\n", messageEncode);
+    }
+    fclose(fichierClair);
+    fclose(fichierEncode);
+}
 
 void inverserTransducteur(transducteur* trans){
     if (trans->inverse != NULL){return ;} // l inverse a déja été calculé
@@ -279,7 +317,164 @@ int espaceMemoireTransducteur(transducteur trans){
 // libererTransducteur(trans1);
 // return 0;
 
+void permuter(double frequenceSimple[26], double frequenceDouble[26][26], int a, int b) {
+    double tmp = frequenceSimple[a];
 
+    printf("---------------------------------------");
+    printf("Permutation: %d %d\n", a, b);
+
+    //afficher tab double
+    for(int i = 0; i<26; i++){
+        printf("%d\t|", i);
+        for(int j = 0; j<26; j++){
+            printf("%f | ",frequenceDouble[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n\n\n");
+
+    frequenceSimple[a] = frequenceSimple[b];
+    frequenceSimple[b] = tmp;
+
+    for(int i = 0; i < 26; i++) {
+        tmp = frequenceDouble[a][i];
+        frequenceDouble[a][i] = frequenceDouble[b][i];
+        frequenceDouble[b][i] = tmp;
+    }
+
+    for(int i = 0; i<26; i++){
+        printf("%d\t|", i);
+        for(int j = 0; j<26; j++){
+            printf("%f | ",frequenceDouble[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n\n\n");
+
+
+    for (int i = 0; i < 26; i++) {
+        tmp = frequenceDouble[i][a];
+        frequenceDouble[i][a] = frequenceDouble[i][b];
+        frequenceDouble[i][b] = tmp;
+    }
+
+    for(int i = 0; i<26; i++){
+        printf("%d\t|", i);
+        for(int j = 0; j<26; j++){
+            printf("%f | ",frequenceDouble[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n\n\n");
+
+}
+
+transducteur * decoderTransducteur1EtatSansCle(char * texte){
+
+    //////////////////// Preparation ////////////////////
+    transducteur * retour = initialiserTransducteur(1,26);
+    enleverAccentsEspacePonctuationMajuscule(texte);
+
+    double frequenceSimpleTexte[26];
+    freqSimpleTexte(texte, frequenceSimpleTexte);
+
+
+    //////////////////// Ordre initiale ////////////////////
+    int * ordreTexte;
+    ordreTexte = triIndices(frequenceSimpleTexte, 26);
+    int * ordreFrancais;
+    ordreFrancais = triIndices(FREQUENCETHEORIQUE, 26);
+
+    double * tmp = malloc(sizeof(double) * 26);
+    for(int i = 0; i<26; i++){
+        retour->delta[0][i].etat = 0;
+        retour->delta[0][ordreTexte[i]].lettre = 'a'+ordreFrancais[i];
+        tmp[ordreFrancais[i]] = frequenceSimpleTexte[ordreTexte[i]];
+    }
+    for(int i = 0; i<26; i++){
+        frequenceSimpleTexte[i] = tmp[i];
+    }
+    free(tmp);
+
+    char textePreDecode[TAILLE_MAX_TEXTE];
+    codeTransducteur(texte, textePreDecode, *retour);    
+    double frequenceCouple[26][26];
+    freqCoupleTexte(textePreDecode, frequenceCouple);
+
+    // for(int i = 0; i<26; i++){
+    //     for(int j = 0; j<26; j++){
+    //         printf("%c%c: %f \n", 'a' + i, 'a' + j, frequenceCouple[i][j]);
+    //     }
+    // }
+
+    // Etape finale : Monte Carlo
+
+    double evalution = indiceCoincidenceFrancaisGlobalV2(frequenceSimpleTexte, frequenceCouple);
+
+    // AVANT
+    printf("AVANT\n");
+    
+    printf("Indice simple : %f\n", indiceCoincidenceFrancaisSimple(frequenceSimpleTexte));
+    printf("Indice double : %f\n", indiceCoincidenceFrancaisCouple(frequenceCouple));
+    printf("Indice global : %f\n", indiceCoincidenceFrancaisGlobalV2(frequenceSimpleTexte, frequenceCouple));
+
+    inverserTransducteur(retour);
+    afficherTransducteur(*retour->inverse);
+
+    for (int i = 0; i < 1; i++){
+        // choisir 2 nombres entre 0 et 25 differents
+        int a = rand() % 26;
+        int b = rand() % 25;
+        if (b >= a){b++;}
+        permuter(frequenceSimpleTexte, frequenceCouple, a, b);
+        double evalutionTmp = indiceCoincidenceFrancaisGlobalV2(frequenceSimpleTexte, frequenceCouple);
+        if (evalutionTmp > evalution){ // on conserve la permutation e t on fait les changement adequats
+            evalution = evalutionTmp;
+            char lettretmp = retour->delta[0][a].lettre;
+            retour->delta[0][a].lettre = retour->delta[0][b].lettre;
+            retour->delta[0][b].lettre = lettretmp;
+            printf ("permutation : %d %d evalution : %f\n", a, b, evalution);
+        }
+        else{ // on revient a la configuration initiale
+            permuter(frequenceSimpleTexte, frequenceCouple, a, b);
+            printf (" pas permutation : %d %d evalution : %f\n", a, b, evalution);
+        }
+
+    }
+
+    // affichage
+
+    // for (int i = 0; i < 26; i++){
+    //     printf("Lettre %c : %f\n", 'a' + i, frequenceSimpleTexte[i]);
+    // }
+
+    printf("APRES\n");
+    printf("Indice simple : %f\n", indiceCoincidenceFrancaisSimple(frequenceSimpleTexte));
+    printf("Indice double : %f\n", indiceCoincidenceFrancaisCouple(frequenceCouple));
+    printf("Indice global : %f\n", indiceCoincidenceFrancaisGlobalV2(frequenceSimpleTexte, frequenceCouple));
+
+    // Translate the encrypted message with the transducteur
+    char messageDecode[TAILLE_MAX_TEXTE];
+    codeTransducteur(texte, messageDecode, *retour);
+
+    // Analyze the frequency and display it
+    double frequenceDoubleDecode[26][26];
+    freqCoupleTexte(messageDecode, frequenceDoubleDecode);
+
+    printf("Double frequency analysis of the decoded message:\n");
+    for (int i = 0; i < 26; i++) {
+        for (int j = 0; j < 26; j++) {
+            printf("%c%c: %f %f\n", 'a' + i, 'a' + j, frequenceDoubleDecode[i][j], frequenceCouple[i][j]);
+            if (frequenceDoubleDecode[i][j] - frequenceCouple[i][j] != 0) {
+                printf("WARNING: The frequency of the couple %c%c is too differenta\n", 'a' + i, 'a' + j);
+            }
+        }
+    }
+
+    free(ordreFrancais);
+    free(ordreTexte);
+    return retour;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -296,12 +491,22 @@ int espaceMemoireTransducteur(transducteur trans){
 
 // ameliorer le rendement ????
 
-// int main(){
-
-// }
-
-
-
 int main(){
-
+    initialiserAleatoire();
+    transducteur * trans = TransducteurUniforme(1,26);
+    char claire[TAILLE_MAX_TEXTE];
+    char encode[TAILLE_MAX_TEXTE];
+    texteAleatoireFrancais(claire, TAILLE_MAX_TEXTE / 11);
+    codeTransducteur(claire, encode, *trans);
+    afficherTransducteur(*trans);
+    //printf("claire : %s\n",claire);
+    //printf("  code : %s\n",encode);
+    transducteur *test;
+    test = decoderTransducteur1EtatSansCle(encode);
+    test->inverse = NULL;
+    inverserTransducteur(test);
+    afficherTransducteur(*test->inverse);
+    libererTransducteur(test);
+    libererTransducteur(trans);
+    return 0;
 }

@@ -1,6 +1,6 @@
 #include "vigenere.h"
 
-void codeVigner(char* messageClaire, char* messageEncode, char* cle){
+void codeVigenere(char* messageClaire, char* messageEncode, char* cle){
     char message[TAILLE_MAX_TEXTE];
     enleverAccentsEspacePonctuationMajuscule(messageClaire);
     int i_cle = 0, l_cle = strlen(cle);
@@ -14,11 +14,11 @@ void codeVigner(char* messageClaire, char* messageEncode, char* cle){
 // TEST OK
 // char message[TAILLE_MAX_TEXTE] = TXTTEST;
 // char encode[TAILLE_MAX_TEXTE];
-// codeVigner(message, encode,CLETEST);
+// codeVigenere(message, encode,CLETEST);
 // assert(strcmp(encode, RESULTATATTENDUVIGNER) == 0);
 // printf("TEST OK\n");
 
-void decodeVignerAvecCle(char* messageEncode, char* messageClaire, char* cle){
+void decodeVigenereAvecCle(char* messageEncode, char* messageClaire, char* cle){
     int i_cle = 0, l_cle = strlen(cle);
     int taille = strlen(messageEncode);
 
@@ -35,7 +35,7 @@ void decodeVignerAvecCle(char* messageEncode, char* messageClaire, char* cle){
 // char clair[TAILLE_MAX_TEXTE] = TXTTEST;
 // char encode[TAILLE_MAX_TEXTE] = RESULTATATTENDUVIGNER;
 // char decode[TAILLE_MAX_TEXTE];
-// decodeVignerAvecCle(encode, decode,CLETEST);
+// decodeVigenereAvecCle(encode, decode,CLETEST);
 // enleverAccentsEspacePonctuationMajuscule(clair);
 // assert(strcmp(decode, clair )== 0);
 // printf("TEST OK\n");
@@ -76,16 +76,16 @@ void recollerSousChaine(char *chaine, char * sousChaine, int taille, int modulo)
 // assert(strcmp(chaine, "abababa" )== 0);
 // printf("TEST OK");
 
-float indiceDeCoincidence(char * chaine, int tailleCle){
-    float IC = 0;
+double indiceDeCoincidence(char * chaine, int tailleCle){
+    double IC = 0;
     char sousChaine[TAILLE_MAX_TEXTE];
     int tailleSousChaine;
-    float tabFreq[26] = {0};
+    double tabFreq[26] = {0};
     for (int i = 0; i < tailleCle; i++){
         decouperEnSousChaine(chaine, sousChaine, tailleCle, i);
         int tailleSousChaine = strlen(sousChaine);
         freqSimpleTexte(sousChaine,tabFreq);
-        float somme = 0;
+        double somme = 0;
         for (int i=0; i<26; i++){
             somme += ((tabFreq[i]*((tabFreq[i]*tailleSousChaine)-1))/(tailleSousChaine - 1));
         }
@@ -94,7 +94,7 @@ float indiceDeCoincidence(char * chaine, int tailleCle){
     return (IC/tailleCle);
 }
 
-void decodeVignerSansCle(char* messageEncode, char* messageClaire, float seuil/*0,065 par défault*/,char* cle){
+void decodeVigenereSansCle(char* messageEncode, char* messageClaire, double seuil/*0,065 par défault*/,char* cle){
     int taille_cle = 1;
     char sousChaineEncode[TAILLE_MAX_TEXTE];
     char sousChaineDecode[TAILLE_MAX_TEXTE];
@@ -117,23 +117,23 @@ void decodeVignerSansCle(char* messageEncode, char* messageClaire, float seuil/*
 // char decode[TAILLE_MAX_TEXTE];
 // char cle[TAILLE_MAX_TEXTE];
 
-// codeVigner(clair,encode,CLETEST);
-// decodeVignerSansCle(encode,decode,0.065,cle);
+// codeVigenere(clair,encode,CLETEST);
+// decodeVigenereSansCle(encode,decode,0.065,cle);
 // assert(strcmp(cle, CLETEST) == 0);
 // assert(strcmp(decode, clair) == 0);
 // printf("TEST OK\n");
 
-int main(){
-    char clair[TAILLE_MAX_TEXTE] = TXTTEST;
-    char encode[TAILLE_MAX_TEXTE];
-    char decode[TAILLE_MAX_TEXTE];
-    char cle[TAILLE_MAX_TEXTE];
+// int main(){
+//     char clair[TAILLE_MAX_TEXTE] = TXTTEST;
+//     char encode[TAILLE_MAX_TEXTE];
+//     char decode[TAILLE_MAX_TEXTE];
+//     char cle[TAILLE_MAX_TEXTE];
 
-    codeVigner(clair,encode,CLETEST);
-    decodeVignerSansCle(encode,decode,0.065,cle);
-    assert(strcmp(cle, CLETEST) == 0);
-    assert(strcmp(decode, clair) == 0);
-    printf("TEST OK\n");
+//     codeVigenere(clair,encode,CLETEST);
+//     decodeVigenereSansCle(encode,decode,0.065,cle);
+//     assert(strcmp(cle, CLETEST) == 0);
+//     assert(strcmp(decode, clair) == 0);
+//     printf("TEST OK\n");
 
-return 0;
-}
+// return 0;
+// }

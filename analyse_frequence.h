@@ -8,14 +8,17 @@
 #include <stdbool.h>
 #include "constantes.h"
 
-extern float FREQUENCETHEORIQUE[26];
+extern double FREQUENCETHEORIQUE[26];
+extern double FREQUENCECOUPLETHEORIQUE[26][26];
 
 void enleverAccentsEspacePonctuationMajuscule(char* str);
 
-void freqSimpleFichier(char* name_fich, float tabfreq[26]);
+void freqSimpleFichier(char* name_fich, double tabfreq[26]);
 
-void freqSimpleTexte(char* texte, float tabfreq[26]);
+void freqSimpleTexte(char* texte, double tabfreq[26]);
 
-void freqCoupleFichier(char* name_fich, float tabfreq[26][26]);
+void freqCoupleFichier(char* name_fich, double tabfreq[26][26]);
+
+void freqCoupleTexte(char* texte, double tabfreq[26][26]);
 
 #endif //ANALYSE_FREQUENCE

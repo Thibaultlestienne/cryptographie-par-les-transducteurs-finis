@@ -38,23 +38,13 @@ void codeCesar(char* messageClaire, char* messageEncode, int decalage){
 // codeCesar(clair,encode,1);
 // printf("%s encodee en %s avec un decalage de 1\n", clair, encode);
 
-float valeurAbsolue(float nb) {
-    if (nb < 0) {return (-1 * nb);}
-    else {return nb;}
-}
-
-// assert(valeurAbsolue (0) == 0);
-// assert(valeurAbsolue (0.5) == 0.5);
-// assert(valeurAbsolue (-1.5) == 1.5);
-// printf("test ok \n");
-
-int decodeCesarTexte(char* TexteEncode, char* TexteDecode) {//nom de fichiers
-    float frequenceMessage[26];
+int decodeCesarTexte(char* TexteEncode, char* TexteDecode) {
+    double frequenceMessage[26];
     freqSimpleTexte(TexteEncode, frequenceMessage);
     int MeilleurDecalage = 0;
-    float MeilleurDifference = __FLT_MAX__;
+    double MeilleurDifference = __FLT_MAX__;
     for (int decalage = 0; decalage < 26; decalage++) {
-        float difference = 0;
+        double difference = 0;
         for (int i = 0; i < 26; i++) {
             difference += valeurAbsolue(FREQUENCETHEORIQUE[i] - frequenceMessage[(decalage+i) % 26]);
         }

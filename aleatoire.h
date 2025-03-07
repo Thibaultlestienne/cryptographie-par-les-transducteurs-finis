@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include "constantes.h"
 #include "transducteur.h"
+#include "analyse_frequence.h"
 
 #include "aleatoire.h"
 
@@ -22,5 +23,11 @@ void melangerUniformeTableau(int tab[], int taille);
 void permutationUniforme(int tableau[], int n);
 
 transducteur * TransducteurUniforme(int nbEtat, int nbLettre);
+
+int nombreCaractere(char* nomFichier);
+
+void texteAleatoireFrancais(char* texte, int taille);
+
+void texteAleatoire(char* texte, int taille);
 
 #endif

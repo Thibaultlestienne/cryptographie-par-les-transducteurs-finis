@@ -6,7 +6,7 @@
 
 ### I Présentation et formalisation de la cryptographie
 ####        A exemple du cesar
-####        B exemple du vigner
+####        B exemple du vigenere
         
 ### II Transducteurs finis
 ####        A Presentation formelle

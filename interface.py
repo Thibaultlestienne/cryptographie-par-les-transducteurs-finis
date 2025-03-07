@@ -9,10 +9,19 @@ fenetre.geometry(f"{fenetre.winfo_screenwidth()}x{fenetre.winfo_screenheight()}"
 # preparation des zonzs de texte
 zoneDeSaisie = None
 zoneDeSortie = None
+zoneNomFichier = None
+
+# Zone de choix de fichier
+zoneDeChoixFichier = tk.Frame(fenetre)
+zoneDeChoixFichier.pack(pady=20)
 
 # Bouton pour ouvrir un fichier
-boutonDeSelectionDeFichier = tk.Button(fenetre, text="Choisir un transducteur", command=ouvrirFichier)
-boutonDeSelectionDeFichier.pack(pady=20)
+boutonDeSelectionDeFichier = tk.Button(zoneDeChoixFichier, text="Choisir un transducteur", command=lambda:ouvrirFichier(zoneNomFichier))
+boutonDeSelectionDeFichier.pack(side=tk.LEFT,pady=20)
+
+zoneNomFichier = tk.Text(zoneDeChoixFichier, height=1, width=25)
+zoneNomFichier.pack(side=tk.LEFT, pady=20)
+zoneNomFichier.config(state=tk.DISABLED)
 
 # Zone pour permettre à l'utilisateur de saisir du texte
 zoneDeSaisie = tk.Text(fenetre, height=10, width=120)

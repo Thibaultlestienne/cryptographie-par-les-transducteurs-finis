@@ -13,6 +13,8 @@ typedef struct transducteur transducteur;
 #include "analyse_frequence.h"
 #include "fichier.h"
 #include "aleatoire.h"
+#include "maths.h"
+#include "francais.h"
 
  struct transition{
     int etat;
@@ -33,6 +35,8 @@ void libererTransducteur(transducteur* trans);
 transducteur* exemple1();
 
 void codeTransducteur(char * messageClair, char * messageEncode, transducteur trans );
+
+void codeFichierTransducteur(char * nomFichierClair, char * nomFichierEncode, transducteur trans);
 
 void inverserTransducteur(transducteur* trans);
 

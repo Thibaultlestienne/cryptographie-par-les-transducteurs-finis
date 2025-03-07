@@ -2,10 +2,11 @@ import ctypes
 import tkinter as tk
 from tkinter import filedialog
 
-def ouvrirFichier():
+def ouvrirFichier(zoneNomFichier):
     global fichier
     nom = filedialog.askopenfilename(initialdir="sources/transducteurs", filetypes=[("Fichiers transducteurs", "*.transducteur")])
     fichier = nom.split("/")[-1].split(".")[0]
+    ecrireSortie(fichier,zoneNomFichier)
 
 def ecrireSortie(texte,zoneDeSortie):
     zoneDeSortie.config(state=tk.NORMAL)

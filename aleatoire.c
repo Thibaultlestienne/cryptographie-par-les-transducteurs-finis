@@ -97,6 +97,73 @@ transducteur * TransducteurUniforme(int nbEtat, int nbLettre){
 // libererTransducteur(trans);
 // return 0;
 
+int nombreCaractere(char* nomFichier){
+    FILE* fichier = fopen(nomFichier, "r");
+    assert(fichier != NULL);
+    int nbchar = 0;
+    char c;
+    while((c = fgetc(fichier)) != EOF) {
+        nbchar++;
+    }
+    fclose(fichier);
+    return nbchar;
+}
+
+void texteAleatoireFrancais(char* texte, int taille){
+    static int n;
+    n = nombreCaractere(FICHIERPOURALEATOIRE);
+    int debut = entierAleatoire(0,n-(2*taille+100));
+    char texteNonMisEnForme[(int)(TAILLE_MAX_TEXTE * 1.5)];
+    FILE * fichier = fopen(FICHIERPOURALEATOIRE,"r");
+    assert(fichier != NULL);
+    fseek(fichier, debut, SEEK_SET);
+    fread(texteNonMisEnForme, 1, 2*taille + 100, fichier);
+    fclose(fichier);
+    enleverAccentsEspacePonctuationMajuscule(texteNonMisEnForme);
+    for (int i = 0; i<taille; i++){
+        texte[i] = texteNonMisEnForme[i];
+    }
+    texte[taille] = '\0';
+}
+
+// char texte[TAILLE_MAX_TEXTE];
+// initialiserAleatoire();
+// texteAleatoireFrancais(texte, 10);
+// printf("txt 1: %s \n", texte);
+// texteAleatoireFrancais(texte, 10);
+// printf("txt 2: %s \n", texte);
+// texteAleatoireFrancais(texte, 10);
+// printf("txt 3: %s \n", texte);
+// texteAleatoireFrancais(texte, 10);
+// printf("txt 4: %s \n", texte);
+// texteAleatoireFrancais(texte, 100);
+// printf("txt 5: %s \n", texte);
+// texteAleatoireFrancais(texte, 1000);
+// printf("txt 6: %s \n", texte);
+
+void texteAleatoire(char* texte, int taille){
+    for (int i = 0; i<taille; i++){
+        texte[i] = entierAleatoire(0,25) + 'a';
+    }
+    texte[taille] = '\0';
+}
+
+// char texte[TAILLE_MAX_TEXTE];
+// initialiserAleatoire();
+// texteAleatoire(texte, 10);
+// printf("txt 1: %s \n", texte);
+// texteAleatoire(texte, 10);
+// printf("txt 2: %s \n", texte);
+// texteAleatoire(texte, 10);
+// printf("txt 3: %s \n", texte);
+// texteAleatoire(texte, 10);
+// printf("txt 4: %s \n", texte);
+// texteAleatoire(texte, 100);
+// printf("txt 5: %s \n", texte);
+// texteAleatoire(texte, 1000);
+// printf("txt 6: %s \n", texte);
+
+
 // int main(){
 //     initialiserAleatoire();
 
@@ -118,7 +185,4 @@ transducteur * TransducteurUniforme(int nbEtat, int nbLettre){
 //     libererTransducteur(trans);
 //     return 0;
 // }
-
-
-
     
