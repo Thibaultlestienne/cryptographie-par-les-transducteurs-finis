@@ -10,6 +10,7 @@ fenetre.geometry(f"{fenetre.winfo_screenwidth()}x{fenetre.winfo_screenheight()}"
 zoneDeSaisie = None
 zoneDeSortie = None
 zoneNomFichier = None
+zoneNbEtats = None
 
 # Zone de choix de fichier
 zoneDeChoixFichier = tk.Frame(fenetre)
@@ -40,8 +41,18 @@ boutonDecoder = tk.Button(zoneDeBouton, text="Decoder", command=lambda:decoderTr
 boutonDecoder.pack(side=tk.LEFT, padx=10)
 
 # Bouton pour generer un transducteur
-boutonGenerationDeCle = tk.Button(zoneDeBouton, text="Générer une clé", command=lambda:genererTransducteur(1000,26))
+boutonGenerationDeCle = tk.Button(zoneDeBouton, text="Générer une clé", command=lambda:genererTransducteur(int(zoneNbEtats.get()),26))
 boutonGenerationDeCle.pack(side=tk.LEFT, padx=10)
+
+# Label nb etats
+labelNbEtats = tk.Label(zoneDeBouton, text="Nombre d'états")
+labelNbEtats.pack(side=tk.LEFT, padx=10)
+
+# Zone pour saisir le nombre d'états
+zoneNbEtats = tk.Entry(zoneDeBouton)
+zoneNbEtats.pack(side=tk.LEFT, padx=10)
+zoneNbEtats.insert(tk.END, 1000)
+
 
 # Zone de sortie
 zoneDeSortie = tk.Text(fenetre, height=10, width=120)

@@ -20,7 +20,7 @@ compiler_resultats:
 	gcc -g resultats.c cesar.c vigenere.c analyse_frequence.c transducteur.c aleatoire.c maths.c -o ex
 
 compiler_cpourpython :
-	gcc -shared -o cpourpython.so -fPIC transducteur.c analyse_frequence.c fichier.c aleatoire.c cpourpython.c 
+	gcc -shared -o cpourpython.so -fPIC transducteur.c analyse_frequence.c fichier.c aleatoire.c maths.c francais.c cpourpython.c
 
 interface : compiler_cpourpython
 	python3 interface.py

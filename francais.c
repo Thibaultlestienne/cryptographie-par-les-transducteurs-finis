@@ -19,7 +19,9 @@ double indiceCoincidenceFrancaisCouple(double freqDouble[26][26]){
 }
 
 double indiceCoincidenceFrancaisGlobal(double freqSimple[26], double freqDouble[26][26]){
-    return 10 * indiceCoincidenceFrancaisSimple(freqSimple) + indiceCoincidenceFrancaisCouple(freqDouble);
+    return 0 * indiceCoincidenceFrancaisSimple(freqSimple) + indiceCoincidenceFrancaisCouple(freqDouble);
+    //return 10 * indiceCoincidenceFrancaisSimple(freqSimple) + indiceCoincidenceFrancaisCouple(freqDouble);
+
 }
 
 double indiceCoincidenceFrancaisGlobalV2(double freqSimple[26], double freqDouble[26][26]){
@@ -28,7 +30,7 @@ double indiceCoincidenceFrancaisGlobalV2(double freqSimple[26], double freqDoubl
         for (int j = 0; j < 26; j++){
             if (FREQUENCECOUPLETHEORIQUE[i][j] ==  0){
                 continue;
-                //retour -= freqDouble[i][j] * 10000;
+                //retour -= freqDouble[i][j] * 1000;
             }
             else {
                 retour +=  freqDouble[i][j] * log(FREQUENCECOUPLETHEORIQUE[i][j]);
