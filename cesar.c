@@ -80,3 +80,32 @@ int decodeCesarTexte(char* TexteEncode, char* TexteDecode) {
 
 // }
 
+double indiceCoincidenceFrancaisSimple(double freqSimple[26]){
+    double retour = 0;
+    for(int i = 0; i<26; i++){
+        retour -= valeurAbsolue(freqSimple[i] - FREQUENCETHEORIQUE[i]);
+    }
+    return retour;
+}
+
+int main(){
+    char message[TAILLE_MAX_TEXTE] = "bonjouratous";
+
+    char messageEncode[TAILLE_MAX_TEXTE];
+    codeCesar(message, messageEncode, 15);
+
+    printf("Message encode : %s\n", messageEncode);
+
+    double frequenceMessage[26];
+
+    for (int i = 0; i<26; i++){
+        char messageDecode[TAILLE_MAX_TEXTE];
+        codeCesar(messageEncode, messageDecode, i);
+        freqSimpleTexte(messageDecode, frequenceMessage);
+        printf("%s %d %f\n", messageDecode, i, indiceCoincidenceFrancaisSimple(frequenceMessage));
+    }
+
+    decodeCesarTexte(messageEncode, message);
+    printf("Message decode : %s\n", message);
+
+}
