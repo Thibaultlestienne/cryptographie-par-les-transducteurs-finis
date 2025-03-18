@@ -4,18 +4,6 @@ compiler_transducteur:
 compiler_transducteur_sans_verification_memoire:
 	gcc -g transducteur.c analyse_frequence.c fichier.c aleatoire.c -o ex
 
-compiler_cesar:
-	gcc -g cesar.c analyse_frequence.c maths.c -o ex
-
-compiler_analyseFreq:
-	gcc -g analyse_frequence.c -o ex
-
-compiler_vigenere:
-	gcc -g vigenere.c analyse_frequence.c cesar.c -o ex
-
-compiler_francais:
-	gcc -g francais.c analyse_frequence.c aleatoire.c transducteur.c maths.c -lm -o ex
-
 compiler_resultats:
 	gcc -g resultats.c cesar.c vigenere.c analyse_frequence.c transducteur.c aleatoire.c maths.c -o ex
 
