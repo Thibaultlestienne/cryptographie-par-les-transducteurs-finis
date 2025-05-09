@@ -389,7 +389,7 @@ transducteur * decoderTransducteur1EtatSansCle(char * texte){
 
         permuter(frequenceSimpleTexte, frequenceCouple, indiceLettreA, indiceLettreB);
         double evalutionTmp = indiceCoincidenceFrancaisGlobal(frequenceSimpleTexte, frequenceCouple);
-        if (evalutionTmp > evalution){ // on conserve la permutation e t on fait les changement adequats
+        if (evalutionTmp > evalution){ // on conserve la permutation et on fait les changement adequats
             evalution = evalutionTmp;
             char lettretmp = retour->delta[0][a].lettre;
             retour->delta[0][a].lettre = retour->delta[0][b].lettre;
@@ -409,11 +409,9 @@ transducteur * decoderTransducteur1EtatSansCle(char * texte){
     //     printf("Lettre %c : %f\n", 'a' + i, frequenceSimpleTexte[i]);
     // }
 
-    // Translate the encrypted message with the transducteur
     char messageDecode[TAILLE_MAX_TEXTE];
     codeTransducteur(texte, messageDecode, *retour);
 
-    // Analyze the frequency and display it
     double frequenceDoubleDecode[26][26];
     freqCoupleTexte(messageDecode, frequenceDoubleDecode);
     printf(" message decode : %s\n", messageDecode);

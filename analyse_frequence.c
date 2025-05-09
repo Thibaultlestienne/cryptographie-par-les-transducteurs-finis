@@ -194,7 +194,12 @@ void freqCoupleTexte(char* texte, double tabfreq[26][26]) {
     }
 }
 
-// int main(int argc, char const *argv[])
-// {
-
-// }
+int main(int argc, char const *argv[])
+{
+    double somme_double = 0;
+    for(int i = 0; i < 26; i++) {
+        somme_double+= FREQUENCECOUPLETHEORIQUE[i][i];
+    }
+    printf("%f\n", somme_double);
+    return 0;
+}
