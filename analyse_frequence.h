@@ -6,7 +6,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
-#include "constantes.h"
+#include "constantes.h" 
 
 extern double FREQUENCETHEORIQUE[26];
 extern double FREQUENCECOUPLETHEORIQUE[26][26];

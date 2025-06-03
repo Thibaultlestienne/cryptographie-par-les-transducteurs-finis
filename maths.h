@@ -9,4 +9,4 @@ int * triIndices(double tab[], int taille);
 void copierTableau(double tableauOriginal[], double tableauCopiee[], int taille);
 void copierMatriceCarree(double **matriceOriginale, double **matriceCopiee, int taille);
 
-#endif 
+#endif

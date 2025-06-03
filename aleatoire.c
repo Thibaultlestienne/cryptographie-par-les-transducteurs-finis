@@ -75,7 +75,7 @@ void permutationUniforme(int tableau[], int n){//Renvoie une permutation de [|0,
 // printf("test OK\n");
 // return 0;
 
-transducteur * TransducteurUniforme(int nbEtat, int nbLettre){
+transducteur * TransducteurUniforme(int nbEtat, int nbLettre){ 
     transducteur * retour = initialiserTransducteur(nbEtat, nbLettre);
     int* permutation = malloc(sizeof(int) * nbLettre);
     for (int i = 0; i<nbEtat; i++){

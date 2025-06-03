@@ -1,4 +1,4 @@
-#include "vigenere.h"
+#include "vigenere.h" 
 
 void codeVigenere(char* messageClaire, char* messageEncode, char* cle){
     char message[TAILLE_MAX_TEXTE];

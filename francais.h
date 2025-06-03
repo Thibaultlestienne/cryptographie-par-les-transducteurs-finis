@@ -7,7 +7,7 @@
 #include <math.h>
 #include "analyse_frequence.h"
 #include "aleatoire.h"
-#include "maths.h"
+#include "maths.h" 
 
 double indiceCoincidenceFrancaisSimple(double freqSimple[26]);
 

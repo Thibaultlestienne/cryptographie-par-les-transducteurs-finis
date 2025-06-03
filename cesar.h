@@ -11,7 +11,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "analyse_frequence.h"
-#include "maths.h"
+#include "maths.h" 
 
 char decalage_caractere(char c, int decalage);
 

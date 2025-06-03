@@ -39,4 +39,4 @@ void copierMatriceCarree(double **matriceOriginale, double **matriceCopiee, int 
             matriceCopiee[i][j] = matriceOriginale[i][j];
         }
     }
-}
+} 
