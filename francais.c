@@ -19,7 +19,7 @@ double indiceCoincidenceFrancaisCouple(double freqDouble[26][26]){
 }
 
 double indiceCoincidenceFrancaisGlobal(double freqSimple[26], double freqDouble[26][26]){
-    return 0 * indiceCoincidenceFrancaisSimple(freqSimple) + indiceCoincidenceFrancaisCouple(freqDouble);
+    return indiceCoincidenceFrancaisCouple(freqDouble);
     //return 10 * indiceCoincidenceFrancaisSimple(freqSimple) + indiceCoincidenceFrancaisCouple(freqDouble);
 
 }

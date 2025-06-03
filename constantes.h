@@ -8,8 +8,8 @@
 //////////////////////////Textes//////////////////////////
 
 //Fichiers
-#define HUGO "victorhugo.txt"
-#define PROUST "marcelproust.txt"
+#define HUGO "sources/textes/victorhugo.txt"
+#define PROUST "sources/textes/marcelproust.txt"
 #define FICHIERPOURANALYSE HUGO
 #define FICHIERPOURALEATOIRE PROUST
 

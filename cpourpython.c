@@ -12,5 +12,9 @@ void decoderPythonTransducteur(char* fichier, char* messageencode, char* message
 
 void genererTransducteurAleatoirePython(char* fichier, int nbetat, int nblettre){
     transducteur * trans = TransducteurUniforme(nbetat,nblettre);
+    while (nombreComposantesFortementConnexe(*trans) != 1){
+        libererTransducteur(trans);
+        trans = TransducteurUniforme(nbetat,nblettre);
+    }
     enregistrerTransducteur(*trans, fichier);
 }

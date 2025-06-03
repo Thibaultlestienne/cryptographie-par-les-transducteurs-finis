@@ -1,25 +1,9 @@
-compiler_transducteur:
-	gcc -g transducteur.c analyse_frequence.c fichier.c aleatoire.c maths.c -o ex -fsanitize=address
-
-compiler_transducteur_sans_verification_memoire:
-	gcc -g transducteur.c analyse_frequence.c fichier.c aleatoire.c -o ex
-
-compiler_resultats:
-	gcc -g resultats.c cesar.c vigenere.c analyse_frequence.c transducteur.c aleatoire.c maths.c -o ex
-
-compiler_cpourpython :
+interface : 
 	gcc -shared -o cpourpython.so -fPIC transducteur.c analyse_frequence.c fichier.c aleatoire.c maths.c francais.c cpourpython.c
-
-interface : compiler_cpourpython
 	python3 interface.py
 
-presentation:
-	google-chrome "https://docs.google.com/presentation/d/119parnhLlwXbr45Fj8y0k48cPkYcSLTneXuT8fSEdWM/edit#slide=id.p"
-
-# Génération du PDF à partir du fichier LaTeX
-pdf: 
-	pdflatex -output-directory="sources/preuve et reflexion" "sources/preuve et reflexion/formules.tex"
-	rm -f "sources/preuve et reflexion"/*.aux "sources/preuve et reflexion"/*.log "sources/preuve et reflexion"/*.out "sources/preuve et reflexion"/*.toc
+compiler_transducteur:
+	gcc -g transducteur.c analyse_frequence.c fichier.c aleatoire.c maths.c francais.c -o ex -fsanitize=address -lm
 
 # Règle pour nettoyer le programme
 nettoyer:

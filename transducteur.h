@@ -44,5 +44,6 @@ void decodeTransducteur(char * messageEncode, char * messageDecode, transducteur
 
 bool estValideTranducteur(transducteur trans);
 
+int nombreComposantesFortementConnexe(transducteur trans); // methode de Kosaraju
 
 #endif //TRANSDUCTEUR

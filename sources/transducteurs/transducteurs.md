@@ -1,5 +1,8 @@
 # Descriptions des transducteurs
 ---
+### transducteur.transducteur
+- Le transducteur à utiliser par défaut
+---
 ### ex1.transducteur
 - le transducteur de base pour les exemples
 ---

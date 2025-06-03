@@ -226,9 +226,7 @@ void parcoursGraphe(bool ** graphe, int sommet, bool * visite, int nbsommet){
     }
 }
 
-int nombreComposantesFortementConnexe(transducteur trans){ // comparer a la methode de tarjan
-    // methode de Kosaraju
-
+int nombreComposantesFortementConnexe(transducteur trans){ // methode de Kosaraju
     // initialisation pour le premier parcours
     bool * visite = malloc(sizeof(bool)*trans.nbEtat);
     int * ordre = malloc(sizeof(int)*trans.nbEtat);
@@ -371,13 +369,6 @@ transducteur * decoderTransducteur1EtatSansCle(char * texte){
 
     double evalution = indiceCoincidenceFrancaisGlobal(frequenceSimpleTexte, frequenceCouple);
     
-    inverserTransducteur(retour);
-    afficherTransducteur(*retour->inverse);
-
-    char messagepoint1[TAILLE_MAX_TEXTE];
-    codeTransducteur(texte, messagepoint1, *retour);
-    printf("message point 1 : %s\n", messagepoint1);
-
     for (int i = 0; i < 100000; i++){
         // choisir 2 nombres entre 0 et 25 differents
         int a = rand() % 26;
@@ -400,6 +391,36 @@ transducteur * decoderTransducteur1EtatSansCle(char * texte){
             permuter(frequenceSimpleTexte, frequenceCouple, indiceLettreA, indiceLettreB);
             //printf (" pas permutation : %d %d evalution : %f\n", a, b, evalution);
         }
+        if (i == 0){    
+            char messageDecode[TAILLE_MAX_TEXTE];
+            codeTransducteur(texte, messageDecode, *retour);
+            printf("Texte decode 0       : %s\n", messageDecode);
+        }
+        if (i == 100){    
+            char messageDecode[TAILLE_MAX_TEXTE];
+            codeTransducteur(texte, messageDecode, *retour);
+            printf("Texte decode 100     : %s\n", messageDecode);
+        }
+        if (i == 500){    
+            char messageDecode[TAILLE_MAX_TEXTE];
+            codeTransducteur(texte, messageDecode, *retour);
+            printf("Texte decode 500     : %s\n", messageDecode);
+        }
+        if (i == 1000){    
+            char messageDecode[TAILLE_MAX_TEXTE];
+            codeTransducteur(texte, messageDecode, *retour);
+            printf("Texte decode 1 000   : %s\n", messageDecode);
+        }
+        if (i == 10000){    
+            char messageDecode[TAILLE_MAX_TEXTE];
+            codeTransducteur(texte, messageDecode, *retour);
+            printf("Texte decode 10 000  : %s\n", messageDecode);
+        }
+        if (i == 99999){    
+            char messageDecode[TAILLE_MAX_TEXTE];
+            codeTransducteur(texte, messageDecode, *retour);
+            printf("Texte decode 100 000 : %s\n", messageDecode);
+        }
 
     }
 
@@ -411,62 +432,45 @@ transducteur * decoderTransducteur1EtatSansCle(char * texte){
 
     char messageDecode[TAILLE_MAX_TEXTE];
     codeTransducteur(texte, messageDecode, *retour);
-
-    double frequenceDoubleDecode[26][26];
-    freqCoupleTexte(messageDecode, frequenceDoubleDecode);
-    printf(" message decode : %s\n", messageDecode);
-
-    for (int i = 0; i < 26; i++) {
-        for (int j = 0; j < 26; j++) {
-            //printf("%c%c: %f %f\n", 'a' + i, 'a' + j, frequenceDoubleDecode[i][j], frequenceCouple[i][j]);
-            if (frequenceDoubleDecode[i][j] - frequenceCouple[i][j] != 0) {
-                printf("Erreur les valeurs sont differentes %c %c\n", 'a' + i, 'a' + j);
-                assert(false);
-            }
-        }
-    }
+    printf("Texte decode : %s\n", messageDecode);
 
     free(ordreFrancais);
     free(ordreTexte);
-    return retour;
+    inverserTransducteur(retour);
+    return retour->inverse;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
+// initialiserAleatoire();
+// transducteur * trans = TransducteurUniforme(1,26);
+// char claire[TAILLE_MAX_TEXTE];
+// char encode[TAILLE_MAX_TEXTE];
+// char decode[TAILLE_MAX_TEXTE];
+// texteAleatoireFrancais(claire, 500);
+// codeTransducteur(claire, encode, *trans);
+// //printf("claire : %s\n",claire);
+// //printf("  code : %s\n",encode);
+// transducteur *proposition;
+// proposition = decoderTransducteur1EtatSansCle(encode);
+// decodeTransducteur(encode, decode, proposition);
+// //printf("decode : %s\n",decode);
 
-// Brut force
+// double frequenceSimpleTexte[26];
+// freqSimpleTexte(claire, frequenceSimpleTexte);
+// double tauxbiendecodee = 0;
 
-// analyse des composantes connexes ou qui on une faible proba d etre quiter trop petite
+// for(int i = 0; i < 26; i++){
+//     if (proposition->delta[0][i].lettre == trans->delta[0][i].lettre){
+//         tauxbiendecodee += frequenceSimpleTexte[i];
+//     }
+//     //printf("%c -> %s\n", 'a' + i, proposition->inverse->delta[0][i].lettre == trans->delta[0][i].lettre ? "OK" : "NON");
+// }
 
-// passage par les etats chauds
+// printf("Taux de bonne decodage : %f\n", tauxbiendecodee);
 
-// identifier la proportion de faible 
+// libererTransducteur(proposition);
+// libererTransducteur(trans);
 
-// ameliorer le rendement ????
-
-int main(){
-    initialiserAleatoire();
-    transducteur * trans = TransducteurUniforme(1,26);
-    char claire[TAILLE_MAX_TEXTE];
-    char encode[TAILLE_MAX_TEXTE];
-    texteAleatoireFrancais(claire, 500);
-    codeTransducteur(claire, encode, *trans);
-    afficherTransducteur(*trans);
-    //printf("claire : %s\n",claire);
-    //printf("  code : %s\n",encode);
-    transducteur *test;
-    test = decoderTransducteur1EtatSansCle(encode);
-    test->inverse = NULL;
-    inverserTransducteur(test);
-    afficherTransducteur(*test->inverse);
-
-    for(int i = 0; i < 26; i++){
-        printf("%c -> %s\n", 'a' + i, test->inverse->delta[0][i].lettre == trans->delta[0][i].lettre ? "OK" : "NON");
-    }
-
-    libererTransducteur(test);
-    libererTransducteur(trans);
+int main() {
     return 0;
 }

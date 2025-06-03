@@ -33,11 +33,11 @@ zoneDeBouton = tk.Frame(fenetre)
 zoneDeBouton.pack(pady=20)
 
 # Bouton pour coder
-boutonCoder = tk.Button(zoneDeBouton, text="Coder", command=lambda:coderTransducteur(zoneDeSaisie,zoneDeSortie))
+boutonCoder = tk.Button(zoneDeBouton, text="Chiffrer", command=lambda:coderTransducteur(zoneDeSaisie,zoneDeSortie))
 boutonCoder.pack(side=tk.LEFT, padx=10)
 
 # Bouton pour decoder
-boutonDecoder = tk.Button(zoneDeBouton, text="Decoder", command=lambda:decoderTransducteur(zoneDeSaisie,zoneDeSortie))
+boutonDecoder = tk.Button(zoneDeBouton, text="Déchiffrer", command=lambda:decoderTransducteur(zoneDeSaisie,zoneDeSortie))
 boutonDecoder.pack(side=tk.LEFT, padx=10)
 
 # Bouton pour generer un transducteur
