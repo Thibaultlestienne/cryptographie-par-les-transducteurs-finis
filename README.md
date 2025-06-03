@@ -9,7 +9,7 @@ Voici mon TIPE autour de la problématique :
 La force du chiffre ainsi créer est qu'il est utilisable par un humain sans le secours d'un ordinateur : voir source/presentation/presentation.pdf (Slides 42 à 48)
 
 ## Comment chiffrer avec le logiciel dans ce répertoire
-
+ 
 Pour chiffrer<br>
 1 - Taper make (ou make interface) dans le terminal<br>
 2 - Choisir un transducteur en haut (par défault choisir le transducteur.transducteur)<br>
